@@ -1,11 +1,14 @@
+@regression
 Feature: Customers
-
-Scenario: Add a new Customer
+Background: Below are the common steps for each scenario
 Given User Launch Chrome browser
 When User opens URL "http://admin-demo.nopcommerce.com//login"
 And User enters Email as "admin@yourstore.com" and Password as "admin"
 And Click on Login
 Then User can view Dashboad
+
+@Sanity
+Scenario: Add a new Customer
 When User click on customers Menu
 And click on customers Menu Item
 And click on Add new button
@@ -15,15 +18,21 @@ And click on Save button
 Then User can view confirmation message "The new customer has been added successfully."
 And close browser
 
+ @Regression
 Scenario: Search Customer by EMailID
-Given User Launch Chrome browser
-When User opens URL "http://admin-demo.nopcommerce.com//login"
-And User enters Email as "admin@yourstore.com" and Password as "admin"
-And Click on Login
-Then User can view Dashboad
 When User click on customers Menu
 And click on customers Menu Item
 And Enter customer EMail
 When Click on search button
 Then User should found Email in the Search table
+And close browser
+
+@Regression
+Scenario: Search Customer by Name
+When User click on Customers Menu
+And click on customers Menu Item
+And Enter customer FirstName
+And Enter customer LastName
+When Click on search button
+Then User should found Name in the Search table
 And close browser

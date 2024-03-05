@@ -1,23 +1,45 @@
 package StepDefinations;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.google.common.io.Files;
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import junit.framework.Assert;
 import pageObject.AddcustomerPage;
 import pageObject.LoginPage;
 import pageObject.SearchCustomerPage;
 
 public class Steps extends BaseClass {
- 
+	@Before
+	public void setup() {
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver();
+		System.out.println("Setup method executed");
+	}
+	@BeforeStep
+	public void BeforeStepDemo() throws IOException {
+		System.out.println("Before step demo");
+	
+	}
+	
+	
   
 	@Given("User Launch Chrome browser")
 	public void user_launch_chrome_browser() {
-		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"//driver/chromedriver.exe");
-		driver = new ChromeDriver();
 		
 	   lp=new LoginPage(driver);
 	}
@@ -106,13 +128,12 @@ public class Steps extends BaseClass {
                 	   //Registered - default
 	                     //The customer cannot be in both 'Guests' and 'Registered' customer roles
 	             //Add the customer to 'Guests' or 'Registered' customer role
-	   Thread.sleep(3000);
 	   addCust.setFirstName("sohaa");
 	   addCust.setLastName("mohammed");
 	   addCust.setGender("Male");
 	   addCust.setDob("09/05/1999");
 	   
-	   addCust.setCompanyName("Apple");
+	   addCust.setCompanyName("My_info_amazo_flip_ali-baba");
 	   
 	   
    //addCust.setCustomerRoles("Forum Moderators");
@@ -139,7 +160,7 @@ public class Steps extends BaseClass {
 	@When("Enter customer EMail")
 	public void enter_customer_e_mail() {
 	   searchCust = new SearchCustomerPage(driver);
-	   searchCust.setEmail("victoria_victori23a@nopCommerece.com");
+	   searchCust.setEmail("admin@yourStore.com");
 	}
 
 	@When("Click on search button")
@@ -151,11 +172,54 @@ public class Steps extends BaseClass {
 
 	@Then("User should found Email in the Search table")
 	public void user_should_found_email_in_the_search_table() {
-	  boolean status = searchCust.searchCustomerByEmail("victoria_victori23a@nopCommerece.com");
+	  boolean status = searchCust.searchCustomerByEmail("admin@yourStore.com");
 	Assert.assertEquals(false, status);
 
 
 	}
+//steps for searching a customer by using first name and last name
+	@When("User click on Customers Menu")
+	public void user_click_on_customers_menu1() {
+		 addCust.clickOnCustomerMenu();
+	}
+
+	
+	@When("Enter customer FirstName")
+	public void enter_customer_first_name() 
+	{
+		searchCust = new SearchCustomerPage(driver);
+		 searchCust.setFirstName("Soha");
+
+	}
+	@When("Enter customer LastName")
+	public void enter_customer_last_name() {
+		searchCust.setLastName("mohd");
+		searchCust.clickSearch();
+	}
+	@Then("User should found Name in the Search table")
+	public void user_should_found_name_in_the_search_table() {
+boolean status = searchCust.searchCustomerByName("Soha mohd");
+searchCust.clickSearch();
+
+
+	Assert.assertEquals(false, status);
+	}
+	@After
+	public void teardown() {
+		System.out.println("Tear Down message executed:");
+		driver.quit();
+	}
+	@AfterStep
+	public void AfterStepMethodDemo(Scenario sc) throws IOException {
+		System.out.println("After Step Method Demo");
+		if(sc.isFailed()==true) {
+			String filepath = "C:\\Users\\Mohammed Sohail\\git\\repository\\nopCommerece\\Screenshots\\failedScreenshots.png";
+		TakesScreenshot shots = ((TakesScreenshot)driver);
+		File srcfl= shots.getScreenshotAs(OutputType.FILE);
+		File DestFile = new File (filepath);
+		Files.copy(srcfl, DestFile);
+		}
+		}
 
 
 }

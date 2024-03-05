@@ -16,5 +16,5 @@ public void WaitForElement(WebElement element,long timeOutInSeconds) {
 	WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
 	wait.until(ExpectedConditions.visibilityOf(element));
 }
-	
+
 }

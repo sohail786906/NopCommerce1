@@ -34,7 +34,7 @@ By drpmgrOfVendor=By.cssSelector("#VendorId");
 
 
 
-By txtCompanyName=By.cssSelector("#Company");
+By txtCompanyName=By.cssSelector("#Company"); 
 /*By txtcustomerRoles=By.xpath("//div[@class='k-widget k-multiselect k-multiselect-clearable k-state-hover']//div[@role='listbox']");
 
 By lstitemAdministrators=By.xpath("//li[normalize-space()='Administrators']");

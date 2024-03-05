@@ -79,7 +79,19 @@ public boolean searchCustomerByEmail(String email) {
 	for(int i=1; i<=getNoOfRows();i++) {
 		String emailid= table.findElement(By.xpath("//table[@id='customers-grid']/tbody/tr["+i+"]/td[2]")).getText();
 		System.out.println(emailid);
-		if(emailid.equals("victoria_victoria@nopCommerce.com")) {
+		if(emailid.equals("admin@yourStore.com")) {
+			flag=true;
+		}
+	}
+	return flag;
+}
+public boolean searchCustomerByName(String Name) {
+	boolean flag = false;
+	for(int i=1; i<=getNoOfRows();i++) {
+		String name = table.findElement(By.xpath("//table[@id='customers-grid']/tbody/tr["+i+")/td[3]")).getText();
+		String names[]=name.split(" "); //separating first name and last name
+		if(names[0].equals("Soha")&& names[1].equals("mohd")) {
+			
 			flag=true;
 		}
 	}
